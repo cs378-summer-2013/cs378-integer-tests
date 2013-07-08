@@ -47,6 +47,92 @@ void print_test_array(std::string testName, II b, II e) {
 // TestInteger
 // -----------
 struct TestInteger : CppUnit::TestFixture {
+    // Helper functions
+    void test_strip_zeroes_01 () {
+        const int a[] = {0, 0, 1};
+        const int* c = strip_zeroes(a, a + 3);
+        CPPUNIT_ASSERT(c - a == 2);
+    }
+
+    void test_strip_zeroes_02 () {
+        const int a[] = {1};
+        const int* c = strip_zeroes(a, a + 3);
+        CPPUNIT_ASSERT(c - a == 0);
+    }
+
+    void test_strip_zeroes_03 () {
+        const int a[] = {1, 0, 0, 1, 0};
+        const int* c = strip_zeroes(a, a + 3);
+        CPPUNIT_ASSERT(c - a == 0);
+    }
+
+    void test_print_list_01 () {
+        const int a[] = {1, 0, 1};
+        int c[10];
+        int* x = print_list(a, a + 3, c);
+        CPPUNIT_ASSERT(x - c == 3);
+        CPPUNIT_ASSERT(std::equal(a, a + 3, a));
+    }
+
+    void test_print_list_02 () {
+        const int a[] = {1};
+        int c[10];
+        int* x = print_list(a, a + 1, c);
+        CPPUNIT_ASSERT(x - c == 1);
+        CPPUNIT_ASSERT(std::equal(a, a + 1, c));
+    }
+    
+    void test_print_list_03 () {
+        const int a[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int c[10];
+        int* x = print_list(a, a + 9, c);
+        CPPUNIT_ASSERT(x - c == 9);
+        CPPUNIT_ASSERT(std::equal(a, a + 1, c));
+    }
+    
+    void test_print_list_04 () {
+        const int a[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int c[10];
+        int* x = print_list(a, a + 10, c);
+        CPPUNIT_ASSERT((x - c == 9) && "Make sure not to write leading zeroes");
+        CPPUNIT_ASSERT(std::equal(a + 1, a + 10, c));
+    }
+
+    void test_compare_01 () {
+        const int a[] = {1, 3, 2, 6, 7, 8};
+        const int b[] = {5, 6, 7};
+        const int c = compare(a, a + 6, b, b + 3);
+        CPPUNIT_ASSERT(c == 1);
+    }
+
+    void test_compare_02 () {
+        const int a[] = {1, 3, 2};
+        const int b[] = {5, 6, 7};
+        const int c = compare(a, a + 3, b, b + 3);
+        CPPUNIT_ASSERT(c == -1);
+    }
+
+    void test_compare_03 () {
+        const int a[] = {5, 6, 7};
+        const int b[] = {5, 6, 7};
+        const int c = compare(a, a + 3, b, b + 3);
+        CPPUNIT_ASSERT(c == 0);
+    }
+
+    void test_compare_04 () {
+        const int a[] = {7, 7, 7};
+        const int b[] = {5, 6, 7};
+        const int c = compare(a, a + 3, b, b + 3);
+        CPPUNIT_ASSERT(c == 1);
+    }
+
+    void test_compare_05 () {
+        const int a[] = {1};
+        const int b[] = {5};
+        const int c = compare(a, a + 1, b, b + 1);
+        CPPUNIT_ASSERT(c == -1);
+    }
+
     // -----------------
     // shift_left_digits
     // -----------------
@@ -61,11 +147,11 @@ struct TestInteger : CppUnit::TestFixture {
     }
 
     void test_shift_left_digits_01 () {
-        const int a[] = {0};
-        const int b[] = {0, 0, 0};
+        const int a[] = {1};
+        const int b[] = {1, 0, 0};
         int x[10];
-        const int* p = shift_left_digits(a, a, 2, x);
-        CPPUNIT_ASSERT((p - x) == 2);
+        const int* p = shift_left_digits(a, a + 1, 2, x);
+        CPPUNIT_ASSERT((p - x) == 3);
         CPPUNIT_ASSERT(std::equal(const_cast<const int*>(x), p, b));
     }
 
@@ -84,6 +170,15 @@ struct TestInteger : CppUnit::TestFixture {
         int x[10];
         const int* p = shift_left_digits(a, a + 3, 0, x);
         CPPUNIT_ASSERT((p - x) == 3);
+        CPPUNIT_ASSERT(std::equal(const_cast<const int*>(x), p, b));
+    }
+
+    void test_shift_left_digits_04 () {
+        const int a[] = {0, 2, 3, 4};
+        const int b[] = {2, 3, 4, 0};
+        int x[10];
+        const int* p = shift_left_digits(a, a + 4, 1, x);
+        CPPUNIT_ASSERT(((p - x) == 4) && "Remember to remove leading zeroes");
         CPPUNIT_ASSERT(std::equal(const_cast<const int*>(x), p, b));
     }
 
@@ -111,7 +206,7 @@ struct TestInteger : CppUnit::TestFixture {
     }
 
     void test_shift_right_digits_02 () {
-        const int a[] = {0};
+        const int a[] = {1};
         const int b[] = {0};
         int x[10];
         const int* p = shift_right_digits(a, a, 1, x);
@@ -308,43 +403,6 @@ struct TestInteger : CppUnit::TestFixture {
         const int* p = multiplies_digits(a, a + 3, b, b + 3, x);
         CPPUNIT_ASSERT(p - x == 6);
         CPPUNIT_ASSERT(std::equal(const_cast<const int*>(x), p, c));
-    }
-
-    // Compare
-
-    void test_compare_01 () {
-        const int a[] = {1, 3, 2, 6, 7, 8};
-        const int b[] = {5, 6, 7};
-        const int c = compare(a, a + 6, b, b + 3);
-        CPPUNIT_ASSERT(c == 1);
-    }
-
-    void test_compare_02 () {
-        const int a[] = {1, 3, 2};
-        const int b[] = {5, 6, 7};
-        const int c = compare(a, a + 3, b, b + 3);
-        CPPUNIT_ASSERT(c == -1);
-    }
-
-    void test_compare_03 () {
-        const int a[] = {5, 6, 7};
-        const int b[] = {5, 6, 7};
-        const int c = compare(a, a + 3, b, b + 3);
-        CPPUNIT_ASSERT(c == 0);
-    }
-
-    void test_compare_04 () {
-        const int a[] = {7, 7, 7};
-        const int b[] = {5, 6, 7};
-        const int c = compare(a, a + 3, b, b + 3);
-        CPPUNIT_ASSERT(c == 1);
-    }
-
-    void test_compare_05 () {
-        const int a[] = {1};
-        const int b[] = {5};
-        const int c = compare(a, a + 1, b, b + 1);
-        CPPUNIT_ASSERT(c == -1);
     }
 
     // --------------
@@ -1040,6 +1098,22 @@ struct TestInteger : CppUnit::TestFixture {
     // -----
 
     CPPUNIT_TEST_SUITE(TestInteger);
+
+    CPPUNIT_TEST(test_strip_zeroes_01);
+    CPPUNIT_TEST(test_strip_zeroes_02);
+    CPPUNIT_TEST(test_strip_zeroes_03);
+
+    CPPUNIT_TEST(test_print_list_01);
+    CPPUNIT_TEST(test_print_list_02);
+    CPPUNIT_TEST(test_print_list_03);
+    CPPUNIT_TEST(test_print_list_04);
+
+    CPPUNIT_TEST(test_compare_01);
+    CPPUNIT_TEST(test_compare_02);
+    CPPUNIT_TEST(test_compare_03);
+    CPPUNIT_TEST(test_compare_04);
+    CPPUNIT_TEST(test_compare_05);
+
     CPPUNIT_TEST(test_shift_left_digits);
     CPPUNIT_TEST(test_shift_left_digits_01);
     CPPUNIT_TEST(test_shift_left_digits_02);
@@ -1065,11 +1139,6 @@ struct TestInteger : CppUnit::TestFixture {
     CPPUNIT_TEST(test_multiplies_digits_03);
     CPPUNIT_TEST(test_multiplies_digits_04);
     CPPUNIT_TEST(test_multiplies_digits_05);
-    CPPUNIT_TEST(test_compare_01);
-    CPPUNIT_TEST(test_compare_02);
-    CPPUNIT_TEST(test_compare_03);
-    CPPUNIT_TEST(test_compare_04);
-    CPPUNIT_TEST(test_compare_05);
     CPPUNIT_TEST(test_divides_digits);
     CPPUNIT_TEST(test_divides_digits_01);
     CPPUNIT_TEST(test_divides_digits_02);
