@@ -642,42 +642,6 @@ struct TestInteger : CppUnit::TestFixture {
 		CPPUNIT_ASSERT(std::equal(a.stuff.begin(), a.stuff.end(), x.begin()));
 	}
 
-	void test_divides_equal_op_8 () {
-		Integer<int> a("-13");
-		const Integer<int> b(10);
-		const std::vector<int> x = {1};
-
-		a /= b;
-
-		CPPUNIT_ASSERT(a.isNegative);
-		CPPUNIT_ASSERT(a.stuff.size() == 1);
-		CPPUNIT_ASSERT(std::equal(a.stuff.begin(), a.stuff.end(), x.begin()));
-	}
-
-	void test_divides_equal_op_9 () {
-		Integer<int> a("13");
-		const Integer<int> b(-10);
-		const std::vector<int> x = {1};
-
-		a /= b;
-
-		CPPUNIT_ASSERT(a.isNegative);
-		CPPUNIT_ASSERT(a.stuff.size() == 1);
-		CPPUNIT_ASSERT(std::equal(a.stuff.begin(), a.stuff.end(), x.begin()));
-	}
-
-	void test_divides_equal_op_10 () {
-		Integer<int> a("-13");
-		const Integer<int> b(-10);
-		const std::vector<int> x = {1};
-
-		a /= b;
-
-		CPPUNIT_ASSERT(!a.isNegative);
-		CPPUNIT_ASSERT(a.stuff.size() == 1);
-		CPPUNIT_ASSERT(std::equal(a.stuff.begin(), a.stuff.end(), x.begin()));
-	}
-
 	// ------------
 	// mod_equal_op
 	// ------------
@@ -1158,13 +1122,64 @@ struct TestInteger : CppUnit::TestFixture {
 	// divides_digits
 	// --------------
 
-	void test_divides_digits () {
-		const int a[] = {1, 3, 2, 6, 7, 8};
-		const int b[] = {5, 6, 7};
-		const int c[] = {2, 3, 4};
+	void test_divides_digits_1 () {
+		try {
+			const int a[] = {5, 6, 7};
+			const int b[] = {1, 3, 2, 6, 7, 8};
+			const int c[] = {0};
 			  int x[10];
-		const int* p = divides_digits(a, a + 6, b, b + 3, x);
-		CPPUNIT_ASSERT(p - x == 3);
+			const int* p = divides_digits(a, a + 3, b, b + 6, x);
+			CPPUNIT_ASSERT(false);
+			CPPUNIT_ASSERT(std::equal(const_cast<const int*>(x), p, c));
+		}
+		catch (std::invalid_argument& e) {
+			CPPUNIT_ASSERT(strcmp(e.what(), "distance(b1, e1) cannot be less than distance(b2, e2)!") == 0);
+	   }
+	}
+
+	void test_divides_digits_2 () {
+		try {
+			const int a[] = {5, 6, 7};
+			const int b[] = {0};
+			const int c[] = {0};
+			  int x[10];
+			const int* p = divides_digits(a, a + 3, b, b + 1, x);
+			CPPUNIT_ASSERT(false);
+			CPPUNIT_ASSERT(std::equal(const_cast<const int*>(x), p, c));
+
+		}
+		catch (std::invalid_argument& e) {
+			CPPUNIT_ASSERT(strcmp(e.what(), "Cannot divide by zero.") == 0);
+	   }
+	}
+
+	void test_divides_digits_3 () {
+		const int a[] = {0};
+		const int b[] = {5, 6, 7};
+		const int c[] = {0};
+			  int x[10];
+		const int* p = divides_digits(a, a + 1, b, b + 3, x);
+		CPPUNIT_ASSERT(p - x == 1);
+		CPPUNIT_ASSERT(std::equal(const_cast<const int*>(x), p, c));
+	}
+
+	void test_divides_digits_4 () {
+		const int a[] = {1, 3, 2, 6, 7, 8};
+		const int b[] = {1};
+		const int c[] = {1, 3, 2, 6, 7, 8};
+			  int x[10];
+		const int* p = divides_digits(a, a + 6, b, b + 1, x);
+		CPPUNIT_ASSERT(p - x == 6);
+		CPPUNIT_ASSERT(std::equal(const_cast<const int*>(x), p, c));
+	}
+
+	void test_divides_digits_5 () {
+		const int a[] = {1, 3, 2, 6, 7, 8};
+		const int b[] = {1, 3, 2, 6, 7, 8};
+		const int c[] = {1};
+			  int x[10];
+		const int* p = divides_digits(a, a + 6, b, b + 6, x);
+		CPPUNIT_ASSERT(p - x == 1);
 		CPPUNIT_ASSERT(std::equal(const_cast<const int*>(x), p, c));
 	}
 
@@ -1178,7 +1193,7 @@ struct TestInteger : CppUnit::TestFixture {
 			CPPUNIT_ASSERT(false);
 		}
 		catch (std::invalid_argument& e) {
-			CPPUNIT_ASSERT(strcmp(e.what(), "Integer()"));
+			CPPUNIT_ASSERT(strcmp(e.what(), "value is an invalid representation of an Integer!") == 0);
 	   }
 	}
 
@@ -1298,13 +1313,6 @@ struct TestInteger : CppUnit::TestFixture {
 		try {
 			const Integer<int> x("48693451");
 			std::vector<int> y = {4, 8, 6, 9, 3, 4, 5, 1};
-
-			/*std::cout << std::endl << "Mayor McCheeseface: ";
-			for (int e : x.stuff) {
-			std::cout << e << " ";
-			}
-			std::cout << std::endl;*/
-
 			CPPUNIT_ASSERT(std::equal(x.stuff.begin(), x.stuff.end(), y.begin()));
 			CPPUNIT_ASSERT(!x.isNegative);
 		}
@@ -1821,8 +1829,13 @@ struct TestInteger : CppUnit::TestFixture {
     CPPUNIT_TEST(test_multiplies_digits_3);
 	CPPUNIT_TEST(test_multiplies_digits_4);
     CPPUNIT_TEST(test_multiplies_digits_5);
-    CPPUNIT_TEST(test_multiplies_digits_6);                 
-		// CPPUNIT_TEST(test_divides_digits);
+    CPPUNIT_TEST(test_multiplies_digits_6);
+
+	CPPUNIT_TEST(test_divides_digits_1);
+	CPPUNIT_TEST(test_divides_digits_2);
+	CPPUNIT_TEST(test_divides_digits_3);
+	CPPUNIT_TEST(test_divides_digits_4);
+	CPPUNIT_TEST(test_divides_digits_5);
 
 	CPPUNIT_TEST(test_constructor_1);
 	CPPUNIT_TEST(test_constructor_2);
