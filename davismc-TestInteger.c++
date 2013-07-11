@@ -1,3 +1,17 @@
+/* UT EID : davismc2 */
+
+/******************************************************************************
+ * Program: C378 Project 3 - Integer
+ * Student: Merrill Davis
+ * CS Server ID: davismc
+ * Class: CS 378
+ * Summer 2013
+ *
+ * Purpose: a program to implement an arbitrary-precision integer class and
+ *  to compute the 20th Mersenne prime.
+ *
+ *****************************************************************************/
+
 // --------------------------------
 // projects/integer/TestInteger.c++
 // Copyright (C) 2013
@@ -840,6 +854,12 @@ struct TestInteger : CppUnit::TestFixture {
 		a += b;
         CPPUNIT_ASSERT(a == -250);}
 
+	void test_Integer_plus_equal_6 () {
+        Integer<int> a = "1986";
+        Integer<int> b = "-96324";
+		a += b;
+        CPPUNIT_ASSERT(a == -94338);}
+
 	// ------
     // Integer minus_equal  -=
     // ------
@@ -1211,6 +1231,7 @@ struct TestInteger : CppUnit::TestFixture {
 	CPPUNIT_TEST(test_Integer_plus_equal_3);
 	CPPUNIT_TEST(test_Integer_plus_equal_4);
 	CPPUNIT_TEST(test_Integer_plus_equal_5);
+	CPPUNIT_TEST(test_Integer_plus_equal_6);
 	CPPUNIT_TEST(test_Integer_minus_equal_1);
 	CPPUNIT_TEST(test_Integer_minus_equal_2);
 	CPPUNIT_TEST(test_Integer_minus_equal_3);
