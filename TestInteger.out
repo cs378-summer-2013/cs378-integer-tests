@@ -1,0 +1,50 @@
+TestInteger.c++
+.............F.F.F.F.F.F............F.F
+
+
+!!!FAILURES!!!
+Test Results:
+Run:  31   Failures: 8   Errors: 0
+
+
+1) test: TestInteger::test_multiplies_digits_1 (F) line: 172 TestInteger.c++
+assertion failed
+- Expression: p - x == 6
+
+
+2) test: TestInteger::test_multiplies_digits_2 (F) line: 181 TestInteger.c++
+assertion failed
+- Expression: p - x == 2
+
+
+3) test: TestInteger::test_multiplies_digits_3 (F) line: 190 TestInteger.c++
+assertion failed
+- Expression: p - x == 1
+
+
+4) test: TestInteger::test_divides_digits_1 (F) line: 203 TestInteger.c++
+assertion failed
+- Expression: p - x == 3
+
+
+5) test: TestInteger::test_divides_digits_2 (F) line: 212 TestInteger.c++
+assertion failed
+- Expression: p - x == 6
+
+
+6) test: TestInteger::test_divides_digits_3 (F) line: 221 TestInteger.c++
+assertion failed
+- Expression: p - x == 1
+
+
+7) test: TestInteger::test_pow_1 (F) line: 360 TestInteger.c++
+assertion failed
+- Expression: x == 0
+
+
+8) test: TestInteger::test_pow_2 (F) line: 372 TestInteger.c++
+assertion failed
+- Expression: y == 0
+
+
+Done.
