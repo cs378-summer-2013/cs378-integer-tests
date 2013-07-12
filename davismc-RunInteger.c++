@@ -198,7 +198,7 @@ int main () {
 	// Mod
 	for (int i = 0; i < MAX_TESTS; ++i){
 		long long left = rand() % 99999 - (rand() % 99999);
-		long long right = rand() % 99999 - (rand() % 99999);
+		long long right = rand() % 99999;
 		Integer<int> lhs = left;
 		Integer<int> rhs = right;
 		Integer<int> result = lhs % rhs;
@@ -258,9 +258,152 @@ int main () {
 		++test_num;
 	} 
 
-	std::cout << std::endl << "***************** LOADING BIG INTEGER TESTS FROM FILE *****************" << std::endl;
-	std::cout << "**** Expects input from console.  Use 'RunInteger < RunInteger.in > RunInteger.out'";
+	// Less Than or Equal
+	for (int i = 0; i < MAX_TESTS; ++i){
+		long long left = rand() % 99999 - (rand() % 99999);
+		long long right = rand() % 99999 - (rand() % 99999);
+		Integer<int> lhs = left;
+		Integer<int> rhs = right;
+		bool result = (lhs <= rhs);
+		bool other_result = (left <= right);
+		std::cout << "Test #" << test_num << ": " << lhs << " <= " << right << " = ";
+		std::cout << result << " Calculated with Base Types: " << left << " <= " << right << " = " << (left <= right);
+		if (other_result == result){
+			std::cout << "  PASS" << std::endl;
+			++pass;
+		}
+		else {
+			std::cout << "  FAIL" << std::endl;
+			++fail;
+		}
+		++test_num;
+	} 
 
+	// Less Than
+	for (int i = 0; i < MAX_TESTS; ++i){
+		long long left = rand() % 99999 - (rand() % 99999);
+		long long right = rand() % 99999 - (rand() % 99999);
+		Integer<int> lhs = left;
+		Integer<int> rhs = right;
+		bool result = (lhs < rhs);
+		bool other_result = (left < right);
+		std::cout << "Test #" << test_num << ": " << lhs << " < " << right << " = ";
+		std::cout << result << " Calculated with Base Types: " << left << " < " << right << " = " << (left < right);
+		if (other_result == result){
+			std::cout << "  PASS" << std::endl;
+			++pass;
+		}
+		else {
+			std::cout << "  FAIL" << std::endl;
+			++fail;
+		}
+		++test_num;
+	} 
+
+	// Greater Than or Equal
+	for (int i = 0; i < MAX_TESTS; ++i){
+		long long left = rand() % 99999 - (rand() % 99999);
+		long long right = rand() % 99999 - (rand() % 99999);
+		Integer<int> lhs = left;
+		Integer<int> rhs = right;
+		bool result = (lhs >= rhs);
+		bool other_result = (left >= right);
+		std::cout << "Test #" << test_num << ": " << lhs << " >= " << right << " = ";
+		std::cout << result << " Calculated with Base Types: " << left << " >= " << right << " = " << (left >= right);
+		if (other_result == result){
+			std::cout << "  PASS" << std::endl;
+			++pass;
+		}
+		else {
+			std::cout << "  FAIL" << std::endl;
+			++fail;
+		}
+		++test_num;
+	} 
+
+	// Greater Than
+	for (int i = 0; i < MAX_TESTS; ++i){
+		long long left = rand() % 99999 - (rand() % 99999);
+		long long right = rand() % 99999 - (rand() % 99999);
+		Integer<int> lhs = left;
+		Integer<int> rhs = right;
+		bool result = (lhs > rhs);
+		bool other_result = (left > right);
+		std::cout << "Test #" << test_num << ": " << lhs << " > " << right << " = ";
+		std::cout << result << " Calculated with Base Types: " << left << " > " << right << " = " << (left > right);
+		if (other_result == result){
+			std::cout << "  PASS" << std::endl;
+			++pass;
+		}
+		else {
+			std::cout << "  FAIL" << std::endl;
+			++fail;
+		}
+		++test_num;
+	} 
+
+	// Negation
+	for (int i = 0; i < MAX_TESTS; ++i){
+		long long left = rand() % 9999 - (rand() % 9999);
+		Integer<int> lhs = left;
+		Integer<int> result = (-lhs);
+		Integer<int> other_result = (-left);
+		std::cout << "Test #" << test_num << ": negation of " << lhs << " = ";
+		std::cout << result << " Calculated with Base Types: negation of " << left << " = " << (-left);
+		if (other_result == result){
+			std::cout << "  PASS" << std::endl;
+			++pass;
+		}
+		else {
+			std::cout << "  FAIL" << std::endl;
+			++fail;
+		}
+		++test_num;
+	}
+
+	// Abs
+	for (int i = 0; i < MAX_TESTS; ++i){
+		long long left = rand() % 9999 - (rand() % 9999);
+		Integer<int> lhs = left;
+		Integer<int> result = (abs(lhs));
+		Integer<int> other_result = (abs(left));
+		std::cout << "Test #" << test_num << ": abs of " << lhs << " = ";
+		std::cout << result << " Calculated with Base Types: abs of " << left << " = " << (long long) (abs(left));
+		if (other_result == result){
+			std::cout << "  PASS" << std::endl;
+			++pass;
+		}
+		else {
+			std::cout << "  FAIL" << std::endl;
+			++fail;
+		}
+		++test_num;
+	}
+
+	// Pow
+	for (int i = 0; i < MAX_TESTS; ++i){
+		long long left = (rand() % 99)+1;
+		long long right = rand() % 5;
+		Integer<int> lhs = left;
+		Integer<int> result = pow(lhs, right);
+		Integer<int> other_result = (pow(left, right));
+		std::cout << "Test #" << test_num << ": pow(" << lhs << ", " << right << ") = ";
+		std::cout << result << " Calculated with Base Types: pow(" << left << ", " << right << ") = " << (long long) (pow(left, right));
+		if (other_result == result){
+			std::cout << "  PASS" << std::endl;
+			++pass;
+		}
+		else {
+			std::cout << "  FAIL" << std::endl;
+			++fail;
+		}
+		++test_num;
+	} 
+
+	std::cout << std::endl << "***************** LOADING BIG INTEGER TESTS FROM FILE *****************" << std::endl;
+	std::cout << "**** Expects input from console.  Use 'RunInteger < RunInteger.in > RunInteger.out'" << std::endl;
+	std::cout << "**** UNCOMMENT CODE TO RUN THESE TESTS" << std::endl;
+/*
     ios_base::sync_with_stdio(false); // turn off synchronization with C I/O
 
 	Integer<int> lhs;
@@ -314,5 +457,5 @@ int main () {
 
 	std::cout << std::endl << "TOTAL TESTS PASSED: " << pass << std::endl;
 	std::cout << "TOTAL TESTS FAILED: " << fail << std::endl;
-
+*/
     return 0;}
