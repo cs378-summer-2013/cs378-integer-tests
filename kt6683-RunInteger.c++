@@ -43,12 +43,6 @@ int main () {
     using namespace std;
     cout << "RunInteger.c++" << endl << endl;
 
-    const int a[] = {1, 3, 2, 6, 7, 8};
-    const int b[] = {5, 6, 7};
-    const int c[] = {2, 3, 4};
-    int x[10];
-    const int* p = divides_digits(a, a + 6, b, b + 3, x);
-
     // less than 300 ms without valgrind
     // less than  15  s with    valgrind
 
