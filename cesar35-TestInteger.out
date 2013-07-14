@@ -1,0 +1,16 @@
+TestInteger.c++
+.......3
+...........F....................MULT2..................
+
+
+!!!FAILURES!!!
+Test Results:
+Run:  56   Failures: 1   Errors: 0
+
+
+1) test: TestInteger::test_divides_digits (F) line: 229 TestInteger.c++
+assertion failed
+- Expression: p - x == 3
+
+
+Done.
