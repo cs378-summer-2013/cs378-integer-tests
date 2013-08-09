@@ -1,0 +1,30 @@
+TestInteger.c++
+....................F....F.F.F
+
+
+!!!FAILURES!!!
+Test Results:
+Run:  26   Failures: 4   Errors: 0
+
+
+1) test: TestInteger::test_constructor_2 (F) line: 235 TestInteger.c++
+assertion failed
+- Expression: false
+
+
+2) test: TestInteger::test_negation (F) line: 316 TestInteger.c++
+assertion failed
+- Expression: y == -98765
+
+
+3) test: TestInteger::test_negation_2 (F) line: 324 TestInteger.c++
+assertion failed
+- Expression: y == -98765
+
+
+4) test: TestInteger::test_negation_3 (F) line: 332 TestInteger.c++
+assertion failed
+- Expression: y == -98765
+
+
+Done.
